@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { client } from "@/lib/amplify";
+import { getDataClient } from "@/lib/amplify";
 
+const client = getDataClient();
 export default function PostProperty() {
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
@@ -32,7 +33,10 @@ export default function PostProperty() {
 
     try {
       setLoading(true);
-      
+      // Check if client exists before using it
+      if (!client){
+        throw new Error("Client is not available");
+      }
       // Create property in the database
       await client.models.Property.create({
         ...formData
