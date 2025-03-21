@@ -27,7 +27,7 @@ export default function PropertyDetails() {
         const propertyData = await client.models.Property.get({
           id: propertyId
         });
-        setProperty(propertyData);
+        setProperty(propertyData.data);
       } catch (error) {
         console.error("Error fetching property:", error);
       } finally {
@@ -83,7 +83,7 @@ export default function PropertyDetails() {
           <div className="mb-4">
             <img 
               src={property.image} 
-              alt={property.title}
+              alt={property.title || "Property image"}
               className="w-full h-64 object-cover rounded"
             />
           </div>
@@ -92,17 +92,17 @@ export default function PropertyDetails() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <h4 className="font-semibold">Price</h4>
-            <p>{property.price}</p>
+            <p>{property.price || "Price not specified"}</p>
           </div>
           <div>
             <h4 className="font-semibold">Location</h4>
-            <p>{property.location}</p>
+            <p>{property.location || "Location not specified"}</p>
           </div>
         </div>
         
         <div className="mb-4">
           <h4 className="font-semibold">Description</h4>
-          <p>{property.description}</p>
+          <p>{property.description || "No description available"}</p>
         </div>
         
         <button 
